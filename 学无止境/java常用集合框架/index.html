@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="HashMap,集合框架,Collection,">
 
 
 
@@ -94,16 +94,22 @@
 
 
 
-<meta name="description" content="你不会有好果汁吃的">
-<meta property="og:type" content="website">
-<meta property="og:title" content="揖风">
-<meta property="og:url" content="https://zyhstan.club/archives/2019/index.html">
+<meta name="description" content="Collection:ArrayList1:底层实现是数组，默认长度是10.2:add(),判断是否数组越界，是数组扩容为原来的两倍。3:remove(),copy数组，size-1,释放空虚的空间。 LinkedList1.LinkedList基于链表实现2.对于随机访问get和set，ArrayList觉得优于LinkedList，因为LinkedList要移动指针。3.对于新增和删除操作ad">
+<meta name="keywords" content="HashMap,集合框架,Collection">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java常用集合框架底层实现">
+<meta property="og:url" content="https://zyhstan.club/学无止境/java常用集合框架/index.html">
 <meta property="og:site_name" content="揖风">
-<meta property="og:description" content="你不会有好果汁吃的">
+<meta property="og:description" content="Collection:ArrayList1:底层实现是数组，默认长度是10.2:add(),判断是否数组越界，是数组扩容为原来的两倍。3:remove(),copy数组，size-1,释放空虚的空间。 LinkedList1.LinkedList基于链表实现2.对于随机访问get和set，ArrayList觉得优于LinkedList，因为LinkedList要移动指针。3.对于新增和删除操作ad">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://oscimg.oschina.net/oscnet/900425-20161101222716674-1900843764.png">
+<meta property="og:image" content="https://oscimg.oschina.net/oscnet/900425-20161101222805783-536211107.png">
+<meta property="og:image" content="https://oscimg.oschina.net/oscnet/900425-20161101222855377-449455763.png">
+<meta property="og:updated_time" content="2019-05-24T06:13:14.582Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="揖风">
-<meta name="twitter:description" content="你不会有好果汁吃的">
+<meta name="twitter:title" content="java常用集合框架底层实现">
+<meta name="twitter:description" content="Collection:ArrayList1:底层实现是数组，默认长度是10.2:add(),判断是否数组越界，是数组扩容为原来的两倍。3:remove(),copy数组，size-1,释放空虚的空间。 LinkedList1.LinkedList基于链表实现2.对于随机访问get和set，ArrayList觉得优于LinkedList，因为LinkedList要移动指针。3.对于新增和删除操作ad">
+<meta name="twitter:image" content="https://oscimg.oschina.net/oscnet/900425-20161101222716674-1900843764.png">
 
 
 
@@ -132,13 +138,13 @@
 
 
 
-  <link rel="canonical" href="https://zyhstan.club/archives/2019/">
+  <link rel="canonical" href="https://zyhstan.club/学无止境/java常用集合框架/">
 
 
 
 
 
-  <title>归档 | 揖风</title>
+  <title>java常用集合框架底层实现 | 揖风</title>
   
 
 
@@ -173,7 +179,7 @@
     
   
 
-  <div class="container sidebar-position-left  page-archive  ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -267,247 +273,198 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-      <span class="archive-page-counter">
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zyhstan.club/学无止境/java常用集合框架/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="揖风">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/yaoshuige.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="揖风">
+    </span>
+
+    
+      <header class="post-header">
+
         
         
+          <h1 class="post-title" itemprop="name headline">java常用集合框架底层实现</h1>
         
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-14T09:20:35+08:00">
+                2019-03-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-        
-        嗯..! 目前共计 6 篇日志。 继续努力。
-      </span>
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/学无止境/" itemprop="url" rel="index">
+                    <span itemprop="name">学无止境</span>
+                  </a>
+                </span>
 
-      
-
-        
-        
-        
-
-        
+                
+                
+              
+            </span>
           
-          <div class="collection-title">
-            <h2 class="archive-year motion-element" id="archive-year-2019">2019</h2>
-          </div>
-        
-        
 
-        
+          
+            
+          
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
+          
+             <span id="/学无止境/java常用集合框架/" class="leancloud_visitors" data-flag-title="java常用集合框架底层实现">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/学无止境/hashmap/" itemprop="url">
-              
-                <span itemprop="name">HashMap解析</span>
-              
-            </a>
-        
-      </h2>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-04-19T14:37:25+08:00" content="2019-04-19">
-          04-19
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+          
 
+        </div>
+      </header>
+    
 
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/学无止境/springcloud/" itemprop="url">
-              
-                <span itemprop="name">Spring Cloud探索</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-04-16T09:37:11+08:00" content="2019-04-16">
-          04-16
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/学无止境/excel导出/" itemprop="url">
-              
-                <span itemprop="name">导入导出Excel</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-04-10T14:07:14+08:00" content="2019-04-10">
-          04-10
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/工作/记开发以来的一个大问题/" itemprop="url">
-              
-                <span itemprop="name">记开发以来的一个大问题</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-28T22:35:01+08:00" content="2019-03-28">
-          03-28
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <h1 id="Collection"><a href="#Collection" class="headerlink" title="Collection:"></a><strong>Collection:</strong></h1><p><strong>ArrayList</strong><br>1:底层实现是数组，默认长度是10.<br>2:add(),判断是否数组越界，是数组扩容为原来的两倍。<br>3:remove(),copy数组，size-1,释放空虚的空间。</p>
+<p><strong>LinkedList</strong><br>1.LinkedList基于链表实现<br>2.对于随机访问get和set，ArrayList觉得优于LinkedList，因为LinkedList要移动指针。<br>3.对于新增和删除操作add和remove，LinedList比较占优势，因为ArrayList要移动数据。<br>4.查找操作indexOf,lastIndexOf,contains等，两者差不多。</p>
+<p><strong>HashSet</strong><br>底层实现是一个HashMap,把值存在map的key上，value存的是一个object对象，就是说底层的HashMap中value都是一样的。<br>HashSet是无序的，不允许重复。</p>
+<p><strong>LinkedHashSet</strong><br>基础自HashSet,底层实现是一个LinkedHashMap,通过equals()方法比较两个对象是否相等,初始容量16，加载因子0.75f.<br>使用链表维护数据的顺序，所有说是有序，不重复的,对象都是存在底层map的key上，所有允许有且只有一个对象为null。</p>
+<h1 id="Map"><a href="#Map" class="headerlink" title="Map:"></a><strong>Map:</strong></h1><p><strong>HashMap</strong><br>初始容量值：16，加载因子0.75f.<br>put()第一个对象的时候，进行初始化，容量16，极限值12，大于极限就要进行扩容。<br>其底层是一个Entry数组，根据hash值，算法决定object val 对象存在Entry数组的位置。<br>注意点在用Iterator进行遍历map的时候，在遍历过程中不能调用remove()方法，否则会报错。<br>java.util.ConcurrentModificationException<br>at java.util.HashMap$HashIterator.nextEntry(HashMap.java:922)<br>at java.util.HashMap$EntryIterator.next(HashMap.java:962)<br>at java.util.HashMap$EntryIterator.next(HashMap.java:960)</p>
+<p>原因：<br>在获得hashmap的迭代器的时候，构造器中会把expectedModCount = modCount;modCount:(记录map增加，删除，modCount+1)<br>在迭代过程中如何调用remove() or add()方法，modCont+1,在iterator.next()的时候会去比较expectedModCount与modCont是否相等，不等，报错。</p>
+<p>源码：</p>
+<p><img src="https://oscimg.oschina.net/oscnet/900425-20161101222716674-1900843764.png" alt></p>
+<p><img src="https://oscimg.oschina.net/oscnet/900425-20161101222805783-536211107.png" alt></p>
+<p><img src="https://oscimg.oschina.net/oscnet/900425-20161101222855377-449455763.png" alt></p>
+<p><strong>LinkedHashMap</strong><br>初始容量16，加载因子0.75f.<br>一个有序的map。继承HashMap,LinkedHashMap并未重写父类HashMap的put方法，而是重写了父类HashMap的put方法调用的子方法void addEntry(int hash, K key, V value, int bucketIndex) 和void createEntry(int hash, K key, V value, int bucketIndex)，提供了自己特有的双向链接列表的实现。</p>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/学无止境/java常用集合框架/" itemprop="url">
-              
-                <span itemprop="name">java常用集合框架底层实现</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-14T09:20:35+08:00" content="2019-03-14">
-          03-14
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/学无止境/代码块执行顺序/" itemprop="url">
-              
-                <span itemprop="name">构造器，代码块，静态代码块的执行顺序</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-03-13T10:17:45+08:00" content="2019-03-13">
-          03-13
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/HashMap/" rel="tag"># HashMap</a>
+          
+            <a href="/tags/集合框架/" rel="tag"># 集合框架</a>
+          
+            <a href="/tags/Collection/" rel="tag"># Collection</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/学无止境/代码块执行顺序/" rel="next" title="构造器，代码块，静态代码块的执行顺序">
+                <i class="fa fa-chevron-left"></i> 构造器，代码块，静态代码块的执行顺序
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/工作/记开发以来的一个大问题/" rel="prev" title="记开发以来的一个大问题">
+                记开发以来的一个大问题 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -515,6 +472,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -535,8 +496,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image" src="/images/yaoshuige.jpg" alt="揖风">
           <p class="site-author-name" itemprop="name">揖风</p>
@@ -596,6 +566,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Collection"><span class="nav-number">1.</span> <span class="nav-text">Collection:</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Map"><span class="nav-number">2.</span> <span class="nav-text">Map:</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -709,11 +695,9 @@
   
 
   
-  
-    <script type="text/javascript" id="motion.page.archive">
-      $('.archive-year').velocity('transition.slideLeftIn');
-    </script>
-  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
 
 
   

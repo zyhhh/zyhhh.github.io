@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="WebService,CXF,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2">
+
+
+
+
+
+
+<meta name="description" content="webservice接口问题，我们这边是服务端，第三方调用我们服务，一个9个接口。 我们这对应3个环境133、135、137，在3个环境上的代码的代码都是一样的，但是生成的ws客户端却不一样，133和135是一样，137和这两个环境不一样。并且两套客户端都不能在三个环境都行得通。 一直找不出原因，动态代理问题？路径问题？配置问题？环境问题？一切都不清楚。 最后想出的解决方案有3种：   接口中的n">
+<meta name="keywords" content="WebService,CXF">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记开发以来的一个大问题">
+<meta property="og:url" content="https://zyhstan.club/工作/记开发以来的一个大问题/index.html">
+<meta property="og:site_name" content="揖风">
+<meta property="og:description" content="webservice接口问题，我们这边是服务端，第三方调用我们服务，一个9个接口。 我们这对应3个环境133、135、137，在3个环境上的代码的代码都是一样的，但是生成的ws客户端却不一样，133和135是一样，137和这两个环境不一样。并且两套客户端都不能在三个环境都行得通。 一直找不出原因，动态代理问题？路径问题？配置问题？环境问题？一切都不清楚。 最后想出的解决方案有3种：   接口中的n">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-05-24T06:12:42.530Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="记开发以来的一个大问题">
+<meta name="twitter:description" content="webservice接口问题，我们这边是服务端，第三方调用我们服务，一个9个接口。 我们这对应3个环境133、135、137，在3个环境上的代码的代码都是一样的，但是生成的ws客户端却不一样，133和135是一样，137和这两个环境不一样。并且两套客户端都不能在三个环境都行得通。 一直找不出原因，动态代理问题？路径问题？配置问题？环境问题？一切都不清楚。 最后想出的解决方案有3种：   接口中的n">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://zyhstan.club/工作/记开发以来的一个大问题/">
+
+
+
+
+
+  <title>记开发以来的一个大问题 | 揖风</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?41fc030db57d5570dd22f78997dc4a7e";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">揖风</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">傲不可长，欲不可纵，志不可满，乐不可极。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://zyhstan.club/工作/记开发以来的一个大问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="揖风">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/yaoshuige.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="揖风">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">记开发以来的一个大问题</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-28T22:35:01+08:00">
+                2019-03-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/工作/" itemprop="url" rel="index">
+                    <span itemprop="name">工作</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/工作/记开发以来的一个大问题/" class="leancloud_visitors" data-flag-title="记开发以来的一个大问题">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>webservice接口问题，我们这边是服务端，第三方调用我们服务，一个9个接口。</p>
+<p>我们这对应3个环境133、135、137，在3个环境上的代码的代码都是一样的，但是生成的ws客户端却不一样，133和135是一样，137和这两个环境不一样。并且两套客户端都不能在三个环境都行得通。</p>
+<p>一直找不出原因，动态代理问题？路径问题？配置问题？环境问题？一切都不清楚。</p>
+<p>最后想出的解决方案有3种：</p>
+<blockquote>
+<ol>
+<li><p>接口中的namespace写死或者配置文件中用 jaxws:server 配置（之前是用 jaxws:endpoint 配置的可能有问题），生成的客户端就不会变。但这个我们服务端风险大，因为这9个接口对接的不止他们一个系统，改了之后不能保证其他系统依然能调通。</p>
+</li>
+<li><p>像做测试一样用最简单的 JaxWsProxyFactoryBean 代理工厂类直接调用接口，这个只需要客户端改些方法即可。</p>
+</li>
+</ol>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> TeamDetailService <span class="title">getTeamDetail</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">	JaxWsProxyFactoryBean jfb = <span class="keyword">new</span> JaxWsProxyFactoryBean();</span><br><span class="line">	jfb.setAddress(<span class="string">"http://127.0.0.1:7001/sales/ws/TeamDetailService?wsdl"</span>);</span><br><span class="line">	jfb.setServiceClass(TeamDetailService.class);</span><br><span class="line">	TeamDetailService service = (TeamDetailService) jfb.create();</span><br><span class="line">	TeamDetailRequest request = <span class="keyword">new</span> TeamDetailRequest();</span><br><span class="line">	<span class="comment">//机构集合</span></span><br><span class="line">	List&lt;String&gt; comCodes = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">	comCodes.add(<span class="string">"0164363001"</span>);</span><br><span class="line">	<span class="comment">//渠道类型</span></span><br><span class="line">	String teamType=<span class="string">""</span>;</span><br><span class="line">	request.setComCodes(comCodes);</span><br><span class="line">	<span class="comment">//request.setTeamType("01");</span></span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		TeamDetailResponse response=service.queryTeamDetail(request);</span><br><span class="line">		List&lt;SaTeamNewDto&gt; saTeamNewList = response.getTeamNewDetails();</span><br><span class="line">		<span class="keyword">int</span> i=<span class="number">1</span>;</span><br><span class="line">		<span class="keyword">for</span> (SaTeamNewDto  saTeamNewDto: saTeamNewList) &#123;</span><br><span class="line">			System.out.println(<span class="string">"第"</span>+i+<span class="string">"个团队代码为:"</span>+saTeamNewDto.getTeamCode()+<span class="string">"   团队名称为："</span>+saTeamNewDto.getTeamName());</span><br><span class="line">			System.out.println(<span class="string">"第"</span>+i+<span class="string">"个机构代码为:"</span>+saTeamNewDto.getComCode()+<span class="string">"   机构名称为："</span>+saTeamNewDto.getDeptCode());</span><br><span class="line">			System.out.println(<span class="string">"第"</span>+i+<span class="string">"个渠道类型为:"</span>+saTeamNewDto.getTeamTypeID());</span><br><span class="line">			i++;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> service;</span><br><span class="line">	&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">		<span class="comment">// logger.error("Error:", e.toString());//e.printStackTrace();</span></span><br><span class="line">		<span class="keyword">throw</span> e;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<ol start="3">
+<li>用 spring+cxf 配置文件来解决，无需考虑客户端生成的接口名称，无需关心是否有代理，也是一种不错的方法</li>
+</ol>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></span><br><span class="line"><span class="tag">	<span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> <span class="attr">xmlns:jaxws</span>=<span class="string">"http://cxf.apache.org/jaxws"</span></span></span><br><span class="line"><span class="tag">	<span class="attr">xsi:schemaLocation</span>=<span class="string">"</span></span></span><br><span class="line"><span class="tag"><span class="string">  http://www.springframework.org/schema/beans </span></span></span><br><span class="line"><span class="tag"><span class="string">  http://www.springframework.org/schema/beans/spring-beans.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">  http://cxf.apache.org/jaxws </span></span></span><br><span class="line"><span class="tag"><span class="string">  http://cxf.apache.org/schemas/jaxws.xsd"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"gsTeamService"</span> <span class="attr">class</span>=<span class="string">"webservice.client.sales.service.impl.GsTeamServiceImpl"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"teamDetailNXService"</span> <span class="attr">ref</span>=<span class="string">"teamDetailNXService"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"gsTeamDetailService"</span> <span class="attr">class</span>=<span class="string">"webservice.client.sales.service.impl.GsTeamDetailServiceImpl"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"teamDtoService"</span> <span class="attr">ref</span>=<span class="string">"teamDtoService"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"gsAgrtService"</span> <span class="attr">class</span>=<span class="string">"webservice.client.sales.service.impl.GsAgrtServiceImpl"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"agreementDetailService"</span> <span class="attr">ref</span>=<span class="string">"agreementDetailService"</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"gsAgrtDetailService"</span> <span class="attr">class</span>=<span class="string">"webservice.client.sales.service.impl.GsAgrtDetailServiceImpl"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"agreementDtoService"</span> <span class="attr">ref</span>=<span class="string">"agreementDtoService"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"gsSalesManService"</span> <span class="attr">class</span>=<span class="string">"webservice.client.sales.service.impl.GsSalesManServiceImpl"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"userDetailService"</span> <span class="attr">ref</span>=<span class="string">"userDetailService"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"gsSalesManDtoService"</span> <span class="attr">class</span>=<span class="string">"webservice.client.sales.service.impl.GsSalesManDtoServiceImpl"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"userDtoService"</span> <span class="attr">ref</span>=<span class="string">"userDtoService"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"gsPrpdNetService"</span> <span class="attr">class</span>=<span class="string">"webservice.client.sales.service.impl.GsPrpdNetServiceImpl"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"prpdNetService"</span> <span class="attr">ref</span>=<span class="string">"prpdNetService"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"gsQueryPrpdNetService"</span> <span class="attr">class</span>=<span class="string">"webservice.client.sales.service.impl.GsQueryNetWorkServiceImpl"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"queryPrpdNetService"</span> <span class="attr">ref</span>=<span class="string">"queryPrpdNetService"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"gsQueryPrpdNetServiceWithSaleUser"</span> <span class="attr">class</span>=<span class="string">"webservice.client.sales.service.impl.GsQueryPrpdNetServiceWithSaleUserImpl"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"queryPrpdNetServiceWithSaleUser"</span> <span class="attr">ref</span>=<span class="string">"queryPrpdNetServiceWithSaleUser"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">jaxws:client</span> <span class="attr">id</span>=<span class="string">"teamDetailNXService"</span> <span class="attr">serviceClass</span>=<span class="string">"webservice.wsdl.sales.TeamDetailNXService"</span></span></span><br><span class="line"><span class="tag">		<span class="attr">address</span>=<span class="string">"http://10.100.137.185:8001/sales/ws/TeamDetailNXService"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">jaxws:client</span> <span class="attr">id</span>=<span class="string">"teamDtoService"</span> <span class="attr">serviceClass</span>=<span class="string">"webservice.wsdl.sales.TeamDtoService"</span></span></span><br><span class="line"><span class="tag">		<span class="attr">address</span>=<span class="string">"http://10.100.137.185:8001/sales/ws/TeamDtoService"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">jaxws:client</span> <span class="attr">id</span>=<span class="string">"agreementDetailService"</span> <span class="attr">serviceClass</span>=<span class="string">"webservice.wsdl.sales.AgreementDetailService"</span> </span></span><br><span class="line"><span class="tag">		<span class="attr">address</span>=<span class="string">"http://10.100.137.185:8001/sales/ws/AgreementDetailService"</span> /&gt;</span></span><br><span class="line">    </span><br><span class="line">	<span class="tag">&lt;<span class="name">jaxws:client</span> <span class="attr">id</span>=<span class="string">"agreementDtoService"</span> <span class="attr">serviceClass</span>=<span class="string">"webservice.wsdl.sales.AgreementDtoService"</span> </span></span><br><span class="line"><span class="tag">		<span class="attr">address</span>=<span class="string">"http://10.100.137.185:8001/sales/ws/AgreementDtoService"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">jaxws:client</span> <span class="attr">id</span>=<span class="string">"userDetailService"</span> <span class="attr">serviceClass</span>=<span class="string">"webservice.wsdl.sales.UserDetailService"</span></span></span><br><span class="line"><span class="tag">		<span class="attr">address</span>=<span class="string">"http://10.100.137.185:8001/sales/ws/UserDetailService"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">jaxws:client</span> <span class="attr">id</span>=<span class="string">"userDtoService"</span> <span class="attr">serviceClass</span>=<span class="string">"webservice.wsdl.sales.UserDtoService"</span></span></span><br><span class="line"><span class="tag">		<span class="attr">address</span>=<span class="string">"http://10.100.137.185:8001/sales/ws/UserDtoService"</span> /&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="tag">&lt;<span class="name">jaxws:client</span> <span class="attr">id</span>=<span class="string">"prpdNetService"</span> <span class="attr">serviceClass</span>=<span class="string">"webservice.wsdl.sales.netService.PrpdNetService"</span></span></span><br><span class="line"><span class="tag">		<span class="attr">address</span>=<span class="string">"http://10.100.137.185:8001/sales/ws/PrpdNetService"</span>&gt;</span><span class="tag">&lt;/<span class="name">jaxws:client</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="tag">&lt;<span class="name">jaxws:client</span> <span class="attr">id</span>=<span class="string">"queryPrpdNetService"</span> <span class="attr">serviceClass</span>=<span class="string">"webservice.wsdl.sales.netWork.QueryPrpdNetService"</span> </span></span><br><span class="line"><span class="tag">		<span class="attr">address</span>=<span class="string">"http://10.100.137.185:8001/sales/ws/QueryPrpdNetService"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">jaxws:client</span> <span class="attr">id</span>=<span class="string">"queryPrpdNetServiceWithSaleUser"</span> <span class="attr">serviceClass</span>=<span class="string">"webservice.wsdl.sales.netWork.QueryPrpdNetServiceWithSaleUser"</span> </span></span><br><span class="line"><span class="tag">		<span class="attr">address</span>=<span class="string">"http://10.100.137.185:8001/sales/ws/QueryPrpdNetServiceWithSaleUser"</span>/&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">	&lt;bean id="propertyConfigurer"</span></span><br><span class="line"><span class="comment">		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"&gt;</span></span><br><span class="line"><span class="comment">		&lt;property name="locations"&gt;</span></span><br><span class="line"><span class="comment">			&lt;list&gt;</span></span><br><span class="line"><span class="comment">				&lt;value&gt;classpath:/webservice.properties&lt;/value&gt;</span></span><br><span class="line"><span class="comment">			&lt;/list&gt;</span></span><br><span class="line"><span class="comment">		&lt;/property&gt;</span></span><br><span class="line"><span class="comment">	&lt;/bean&gt;</span></span><br><span class="line"><span class="comment">	--&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>以上2、3两种方式均要导入相应cxf的jar包</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/WebService/" rel="tag"># WebService</a>
+          
+            <a href="/tags/CXF/" rel="tag"># CXF</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/学无止境/java常用集合框架/" rel="next" title="java常用集合框架底层实现">
+                <i class="fa fa-chevron-left"></i> java常用集合框架底层实现
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/学无止境/excel导出/" rel="prev" title="导入导出Excel">
+                导入导出Excel <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/yaoshuige.jpg" alt="揖风">
+          <p class="site-author-name" itemprop="name">揖风</p>
+           
+              <p class="site-description motion-element" itemprop="description">你不会有好果汁吃的</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">揖风</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("51Kqx8oNNj16nRu7CKYgbYdn-gzGzoHsz", "tlSbor9RahSu9z2JjifhEoLI");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
