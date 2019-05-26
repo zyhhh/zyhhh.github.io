@@ -14,7 +14,7 @@
   
 
 
-<html class="theme-next muse use-motion" lang="zh-CN">
+<html class="theme-next pisces use-motion" lang="zh-CN">
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -49,13 +49,13 @@
 <link rel="stylesheet" href="/css/main.css?v=7.1.1">
 
 
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/feng.png?v=7.1.1">
 
 
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/feng_32x32.png?v=7.1.1">
 
 
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/feng_16x16.png?v=7.1.1">
 
 
   <link rel="mask-icon" href="/images/logo.svg?v=7.1.1" color="#222">
@@ -70,7 +70,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Muse',
+    scheme: 'Pisces',
     version: '7.1.1',
     sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
     back2top: true,
@@ -308,14 +308,40 @@
 
       
       
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
     </ul>
   
 
   
-    
 
   
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
 
+
+
+    </div>
   
 </nav>
 
@@ -341,6 +367,9 @@
     <main id="main" class="main">
       <div class="main-inner">
         <div class="content-wrap">
+          
+            
+
           
           <div id="content" class="content">
             
@@ -410,22 +439,6 @@
             
 
             
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-24 14:11:56" itemprop="dateModified" datetime="2019-05-24T14:11:56+08:00">2019-05-24</time>
-              
-            
           </span>
 
           
@@ -490,22 +503,20 @@
       
         
           
-            <p><a href="https://www.jianshu.com/p/8324a34577a0" target="_blank" rel="noopener">这里说的贼好</a></p>
-<h3 id="HashMap"><a href="#HashMap" class="headerlink" title="HashMap"></a><em>HashMap</em></h3><p>数据结构是数组+链表（jdk1.7）<strong>jdk1.8还加入了红黑树</strong><br>存值是怎么存的呢？<br>    这些元素是按照什么样的规则存储到数组中呢。一般情况是通过<code>hash(key)%(len-1)</code>获得，也就是元素的key的哈希值对数组长度取模得到。<br>    比如，12%16=12, 28%16=12, 108%16=12, 140%16=12。所以12、28、108以及140都存储在数组下标为12的位置。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> hash = key.hashCode(); <span class="comment">// 这个hashCode方法这里不详述,只要理解每个key的hash是一个固定的int值</span></span><br><span class="line"><span class="keyword">int</span> index = hash % (Entry[].length-<span class="number">1</span>);</span><br><span class="line">table[index] = value;<span class="comment">//假定存储链表头结点的数组名为table</span></span><br></pre></td></tr></table></figure>
-<p>​    用<code>table[index]</code>表示通过hash值计算出来的、元素需要存储在数组中的位置。<br>​    先判断该位置上有没有存有Entity,没有的话就创建一个<code>Entity&lt;k,v&gt;</code>对象，在该位置上插入，插入结束；<br>​    如果有的话，通过链表的遍历方式去逐个遍历，通过<code>equals</code>方法将key和已有的key进行比较，看看有没有已经存在的key，有的话用新的value替换老的value；<br>​    如果没有，则在<code>table[index]</code>插入该Entity，把原来在<code>table[index]</code>位置上的<code>Entity</code>赋值给新的 <code>Entity的next</code>，也即，新的Entity插入（put）的位置永远是在链表的最前面，这样插入结束。</p>
-<blockquote>
-<p>​    打个比方， 第一个键值对A进来，通过计算其key的hash得到的index=0，记做:table[0] = A。<br>​    一会后又进来一个键值对B，通过计算其index也等于0，现在怎么办？<br>​    HashMap会这样做:B.next = A,table[0] = B;<br>​    如果又进来C,index也等于0,那么C.next = B,table[0] = C;<br>​    这样我们发现index=0的地方其实存取了A,B,C三个键值对,他们通过next这个属性链接在一起。</p>
-</blockquote>
-<p>​    注：null key总是存放在Entry[]数组的第一个元素。</p>
-<h3 id="加载因子说明"><a href="#加载因子说明" class="headerlink" title="加载因子说明"></a><em>加载因子说明</em></h3><p><em><img src="https://oscimg.oschina.net/oscnet/944365-b85819e2f8a3c30a.jpg" alt="img"></em></p>
-<h3 id="数据结构之间的差别"><a href="#数据结构之间的差别" class="headerlink" title="数据结构之间的差别"></a><em>数据结构之间的差别</em></h3><p><img src="https://oscimg.oschina.net/oscnet/944365-67768bc4f0d23d69.png" alt="img"></p>
-<h3 id="向HashMap添加数据（成对-放入-键-值对）"><a href="#向HashMap添加数据（成对-放入-键-值对）" class="headerlink" title="向HashMap添加数据（成对 放入 键 - 值对）"></a><em>向HashMap添加数据（成对 放入 键 - 值对）</em></h3><p><img src="https://oscimg.oschina.net/oscnet/944365-45ec8c640c5e5363.png" alt="img"></p>
-<p><img src="https://oscimg.oschina.net/oscnet/944365-2914343d292dc7e0.png" alt="img"></p>
-<p><strong>jdk1.8 计算哈希码值：</strong></p>
-<p><img src="https://oscimg.oschina.net/oscnet/944365-4eec328e8dd3d7e7.png" alt="img"></p>
-
+            <p>
+              这里说的贼好
+HashMap数据结构是数组+链表（jdk1.7）jdk1.8还加入了红黑树存值是怎么存的呢？    这些元素是按照什么样的规则存储到数组中呢。一般情况是通过hash(key)%(len-1)获得，也就是元素的key的哈希值对数组长度取模得到。    比如，12%16=12, 28%1
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/学无止境/hashmap/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -609,22 +620,6 @@
             
 
             
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-24 14:08:33" itemprop="dateModified" datetime="2019-05-24T14:08:33+08:00">2019-05-24</time>
-              
-            
           </span>
 
           
@@ -689,23 +684,20 @@
       
         
           
-            <h1 id="什么是Spring-Cloud"><a href="#什么是Spring-Cloud" class="headerlink" title="什么是Spring Cloud"></a>什么是Spring Cloud</h1><p>Spring Cloud是微服务架构思想的一个具体实现，它为开发人员提供了快速构建分布式系统中一些常见模式的工具（例如配置管理、服务发、断路器，智能路由、微代理、控制总线等）。</p>
-<p>Spring Cloud 基于Spring Boot 框架，它不重复造轮子，而是将第三方实现的微服务应用的一些模块集成进去。准确的说，Spring Cloud 是一个容器。</p>
-<h1 id="一些组件"><a href="#一些组件" class="headerlink" title="一些组件"></a>一些组件</h1><h3 id="Eureka"><a href="#Eureka" class="headerlink" title="Eureka"></a><em>Eureka</em></h3><p>Spring Cloud Nelix 的 Eureka 组件是服务于发现模块。（注册中心和客户端）</p>
-<h3 id="Zuul"><a href="#Zuul" class="headerlink" title="Zuul"></a><em>Zuul</em></h3><p>它提供微服务的网关功能，即中转站，通过它提供的接口，可以转发不同的服务。它的作用就是进行路由转发、异常处理和过滤拦截。</p>
-<p>在实际的项目中，一个项目可能会包含很多个服务，每个服务的端口和IP 都可能不一样。那么，如果我们以这种形式提供接口给外部调用，代价是非常大的。从安全性上考虑，系统对外提供的接口应该进行合法性校验，防止非法请求，如果按照这种形式，那每个服务都要写一遍校验规则，维护起来也很麻烦。<br>这个时候，我们需要统一的入口，接口地址全部由该入口进入，而服务只部署在局域网内供这个统一的入口调用，这个入口就是我们通常说的服务网关。</p>
-<h3 id="Feign"><a href="#Feign" class="headerlink" title="Feign"></a><em>Feign</em></h3><p>一个大型的系统由多个微服务模块组成，各模块之间不可避免需要进行通信，一般我们可以通过内部接口调用的形式，服务A 提供一个接口，服务B 通过HTTP 请求调用服务A 的接口，为了简化开发，Spring Cloud 提供了一个基础组件方便不同服务之间的HTTP 调用，那就是Feign。</p>
-<p>Feign 是一个声明式的HTTP 客户端，它简化了HTTP 客户端的开发。使用Feign，只需要创建一个接口并注解，就能很轻松的调用各服务提供的HTTP 接口。Feign 默认集成了Ribbon，默认实现了负载均衡。  </p>
-<h3 id="Hystrix"><a href="#Hystrix" class="headerlink" title="Hystrix"></a><em>Hystrix</em></h3><p>SpringCloud 集成了Nelix 开源的Hystrix 组件，该组件实现了熔断器模型，它使得我们很方便地实现熔断器。</p>
-<p>在实际项目中，一个请求调用多个服务是比较常见的，如果较底层的服务发生故障将会发生连锁反应。这对于一个大型项目是灾难性的。因此，我们需要利用Hystrix 组件，当特定的服务不可用达到一个阈值（Hystrix 默认5秒20次），将打开熔断器，即可避免发生连锁反应。</p>
-<hr>
-<p>前面的注册中心、服务提供者、服务消费者、服务网关和熔断器，每个工程都有配置文件，而且有些配置是想通的，按照这个方式进行应用程序的配置，维护性较差，扩展性也较差，比如很多个服务都会配置数据源，而数据源只有一个，那么如果我们的数据源地址发生变化，所有地方都需要改，如何改进这个问题呢？接下来的配置中心就是为解决这个问题而生的。</p>
-<hr>
-<p>学习了SpringCloud 的很多组件，每个组件都创建了一个工程，而每个工程都会有一个配置文件，并且有些配置是一样的。例如：在实际项目中，我们创建了用户和订单两个服务，这两个服务是同一个数据库，那么我们在这两个服务的配置文件都会配置相同的数据源，一旦我们的数据库地址发生改变（只是一种情况），用户和订单两个服务的配置文件都需要改，这还是只是两个服务，在一个大型系统（比如淘宝），将会有成千上万个服务，按照这种方式代价无疑是巨大的。</p>
-<p>不过无需担心，正所谓上有政策，下有对策，既然有这个问题，就一定会有解决方案，那就是创建一个配置中心，专门用于管理系统的所有配置，也就是我们将所有配置文件放到统一的地方进行管理。我们知道，SpringCloud 就是为了简化开发而生的，因此SpringCloud 为我们集成了配置中心——Spring Cloud Conﬁg 组件。</p>
-<h3 id="Spring-Cloud-Config"><a href="#Spring-Cloud-Config" class="headerlink" title="Spring Cloud Config"></a><em>Spring Cloud Config</em></h3><p>Spring Cloud Conﬁg 是一个高可用的分布式配置中心，它支持将配置存放到内存（本地），也支持将其放到Git 仓库进行统一管理（本文主要探讨和Git 的融合）。</p>
-
+            <p>
+              什么是Spring CloudSpring Cloud是微服务架构思想的一个具体实现，它为开发人员提供了快速构建分布式系统中一些常见模式的工具（例如配置管理、服务发、断路器，智能路由、微代理、控制总线等）。
+Spring Cloud 基于Spring Boot 框架，它不重复造轮子，而是将第三方实现
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/学无止境/springcloud/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -809,22 +801,6 @@
             
 
             
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-24 14:23:01" itemprop="dateModified" datetime="2019-05-24T14:23:01+08:00">2019-05-24</time>
-              
-            
           </span>
 
           
@@ -889,77 +865,20 @@
       
         
           
-            <p>项目中Excel导入，导出用什么技术实现呢？</p>
-<h1 id="Apache-POI"><a href="#Apache-POI" class="headerlink" title="Apache POI"></a>Apache POI</h1><p>Apache POI是Apache软件基金会的开源项目，POI提供API给Java程序对Microsoft Office格式档案读和写的功能。 .NET的开发人员则可以利用NPOI (POI for .NET) 来存取 Microsoft Office文档的功能。</p>
-<p><strong>包名称说明</strong></p>
-<p>HSSF提供读写Microsoft Excel XLS格式档案的功能。</p>
-<p>XSSF提供读写Microsoft Excel OOXML XLSX格式档案的功能。</p>
-<p>HWPF提供读写Microsoft Word DOC格式档案的功能。</p>
-<p>HSLF提供读写Microsoft PowerPoint格式档案的功能。</p>
-<p>HDGF提供读Microsoft Visio格式档案的功能。</p>
-<p>HPBF提供读Microsoft Publisher格式档案的功能。</p>
-<p>HSMF提供读Microsoft Outlook格式档案的功能。</p>
-<p><strong>POI常用类说明</strong>                  </p>
-<table>
-<thead>
-<tr>
-<th><strong>类名</strong></th>
-<th><strong>说明</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>HSSFWorkbook</td>
-<td>Excel的文档对象</td>
-</tr>
-<tr>
-<td>HSSFSheet</td>
-<td>Excel的表单</td>
-</tr>
-<tr>
-<td>HSSFRow</td>
-<td>Excel的行</td>
-</tr>
-<tr>
-<td>HSSFCell</td>
-<td>Excel的格子单元</td>
-</tr>
-<tr>
-<td>HSSFFont</td>
-<td>Excel字体</td>
-</tr>
-<tr>
-<td>HSSFDataFormat</td>
-<td>格子单元的日期格式</td>
-</tr>
-<tr>
-<td>HSSFHeader</td>
-<td>Excel文档Sheet的页眉</td>
-</tr>
-<tr>
-<td>HSSFFooter</td>
-<td>Excel文档Sheet的页脚</td>
-</tr>
-<tr>
-<td>HSSFCellStyle</td>
-<td>格子单元样式</td>
-</tr>
-<tr>
-<td>HSSFDateUtil</td>
-<td>日期</td>
-</tr>
-<tr>
-<td>HSSFPrintSetup</td>
-<td>打印</td>
-</tr>
-<tr>
-<td>HSSFErrorConstants</td>
-<td>错误信息表</td>
-</tr>
-</tbody>
-</table>
-
+            <p>
+              项目中Excel导入，导出用什么技术实现呢？
+Apache POIApache POI是Apache软件基金会的开源项目，POI提供API给Java程序对Microsoft Office格式档案读和写的功能。 .NET的开发人员则可以利用NPOI (POI for .NET) 来存取 Microso
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/学无止境/excel导出/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1063,22 +982,6 @@
             
 
             
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-26 11:11:42" itemprop="dateModified" datetime="2019-05-26T11:11:42+08:00">2019-05-26</time>
-              
-            
           </span>
 
           
@@ -1143,28 +1046,21 @@
       
         
           
-            <p>webservice接口问题，我们这边是服务端，第三方调用我们服务，一共9个接口。</p>
-<p>我们这对应3个环境133、135、137，在3个环境上的代码的代码都是一样的，但是生成的ws客户端却不一样，133和135是一样，137和这两个环境不一样。并且两套客户端都不能在三个环境都行得通。</p>
-<p>一直找不出原因，动态代理问题？路径问题？配置问题？环境问题？一切都不清楚。</p>
-<p>最后想出的解决方案有3种：</p>
-<blockquote>
-<ol>
-<li><p>接口中的namespace写死或者配置文件中用 jaxws:server 配置（之前是用 jaxws:endpoint 配置的可能有问题），生成的客户端就不会变。但这个我们服务端风险大，因为这9个接口对接的不止他们一个系统，改了之后不能保证其他系统依然能调通。</p>
-</li>
-<li><p>像做测试一样用最简单的 JaxWsProxyFactoryBean 代理工厂类直接调用接口，这个只需要客户端改些方法即可。</p>
-</li>
-</ol>
-</blockquote>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> TeamDetailService <span class="title">getTeamDetail</span><span class="params">()</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">	JaxWsProxyFactoryBean jfb = <span class="keyword">new</span> JaxWsProxyFactoryBean();</span><br><span class="line">	jfb.setAddress(<span class="string">"http://127.0.0.1:7001/sales/ws/TeamDetailService?wsdl"</span>);</span><br><span class="line">	jfb.setServiceClass(TeamDetailService.class);</span><br><span class="line">	TeamDetailService service = (TeamDetailService) jfb.create();</span><br><span class="line">	TeamDetailRequest request = <span class="keyword">new</span> TeamDetailRequest();</span><br><span class="line">	<span class="comment">//机构集合</span></span><br><span class="line">	List&lt;String&gt; comCodes = <span class="keyword">new</span> ArrayList&lt;String&gt;();</span><br><span class="line">	comCodes.add(<span class="string">"0164363001"</span>);</span><br><span class="line">	<span class="comment">//渠道类型</span></span><br><span class="line">	String teamType=<span class="string">""</span>;</span><br><span class="line">	request.setComCodes(comCodes);</span><br><span class="line">	<span class="comment">//request.setTeamType("01");</span></span><br><span class="line">	<span class="keyword">try</span> &#123;</span><br><span class="line">		TeamDetailResponse response=service.queryTeamDetail(request);</span><br><span class="line">		List&lt;SaTeamNewDto&gt; saTeamNewList = response.getTeamNewDetails();</span><br><span class="line">		<span class="keyword">int</span> i=<span class="number">1</span>;</span><br><span class="line">		<span class="keyword">for</span> (SaTeamNewDto  saTeamNewDto: saTeamNewList) &#123;</span><br><span class="line">			System.out.println(<span class="string">"第"</span>+i+<span class="string">"个团队代码为:"</span>+saTeamNewDto.getTeamCode()+<span class="string">"   团队名称为："</span>+saTeamNewDto.getTeamName());</span><br><span class="line">			System.out.println(<span class="string">"第"</span>+i+<span class="string">"个机构代码为:"</span>+saTeamNewDto.getComCode()+<span class="string">"   机构名称为："</span>+saTeamNewDto.getDeptCode());</span><br><span class="line">			System.out.println(<span class="string">"第"</span>+i+<span class="string">"个渠道类型为:"</span>+saTeamNewDto.getTeamTypeID());</span><br><span class="line">			i++;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> service;</span><br><span class="line">	&#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">		<span class="comment">// logger.error("Error:", e.toString());//e.printStackTrace();</span></span><br><span class="line">		<span class="keyword">throw</span> e;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<ol start="3">
-<li>用 spring+cxf 配置文件来解决，无需考虑客户端生成的接口名称，无需关心是否有代理，也是一种不错的方法</li>
-</ol>
-</blockquote>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></span><br><span class="line"><span class="tag">	<span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> <span class="attr">xmlns:jaxws</span>=<span class="string">"http://cxf.apache.org/jaxws"</span></span></span><br><span class="line"><span class="tag">	<span class="attr">xsi:schemaLocation</span>=<span class="string">"</span></span></span><br><span class="line"><span class="tag"><span class="string">  http://www.springframework.org/schema/beans </span></span></span><br><span class="line"><span class="tag"><span class="string">  http://www.springframework.org/schema/beans/spring-beans.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">  http://cxf.apache.org/jaxws </span></span></span><br><span class="line"><span class="tag"><span class="string">  http://cxf.apache.org/schemas/jaxws.xsd"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"gsTeamService"</span> <span class="attr">class</span>=<span class="string">"webservice.client.sales.service.impl.GsTeamServiceImpl"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"teamDetailNXService"</span> <span class="attr">ref</span>=<span class="string">"teamDetailNXService"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"gsTeamDetailService"</span> <span class="attr">class</span>=<span class="string">"webservice.client.sales.service.impl.GsTeamDetailServiceImpl"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"teamDtoService"</span> <span class="attr">ref</span>=<span class="string">"teamDtoService"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"gsAgrtService"</span> <span class="attr">class</span>=<span class="string">"webservice.client.sales.service.impl.GsAgrtServiceImpl"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"agreementDetailService"</span> <span class="attr">ref</span>=<span class="string">"agreementDetailService"</span> /&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"gsAgrtDetailService"</span> <span class="attr">class</span>=<span class="string">"webservice.client.sales.service.impl.GsAgrtDetailServiceImpl"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"agreementDtoService"</span> <span class="attr">ref</span>=<span class="string">"agreementDtoService"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"gsSalesManService"</span> <span class="attr">class</span>=<span class="string">"webservice.client.sales.service.impl.GsSalesManServiceImpl"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"userDetailService"</span> <span class="attr">ref</span>=<span class="string">"userDetailService"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"gsSalesManDtoService"</span> <span class="attr">class</span>=<span class="string">"webservice.client.sales.service.impl.GsSalesManDtoServiceImpl"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"userDtoService"</span> <span class="attr">ref</span>=<span class="string">"userDtoService"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"gsPrpdNetService"</span> <span class="attr">class</span>=<span class="string">"webservice.client.sales.service.impl.GsPrpdNetServiceImpl"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"prpdNetService"</span> <span class="attr">ref</span>=<span class="string">"prpdNetService"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"gsQueryPrpdNetService"</span> <span class="attr">class</span>=<span class="string">"webservice.client.sales.service.impl.GsQueryNetWorkServiceImpl"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"queryPrpdNetService"</span> <span class="attr">ref</span>=<span class="string">"queryPrpdNetService"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"gsQueryPrpdNetServiceWithSaleUser"</span> <span class="attr">class</span>=<span class="string">"webservice.client.sales.service.impl.GsQueryPrpdNetServiceWithSaleUserImpl"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"queryPrpdNetServiceWithSaleUser"</span> <span class="attr">ref</span>=<span class="string">"queryPrpdNetServiceWithSaleUser"</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">jaxws:client</span> <span class="attr">id</span>=<span class="string">"teamDetailNXService"</span> <span class="attr">serviceClass</span>=<span class="string">"webservice.wsdl.sales.TeamDetailNXService"</span></span></span><br><span class="line"><span class="tag">		<span class="attr">address</span>=<span class="string">"http://10.100.137.185:8001/sales/ws/TeamDetailNXService"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">jaxws:client</span> <span class="attr">id</span>=<span class="string">"teamDtoService"</span> <span class="attr">serviceClass</span>=<span class="string">"webservice.wsdl.sales.TeamDtoService"</span></span></span><br><span class="line"><span class="tag">		<span class="attr">address</span>=<span class="string">"http://10.100.137.185:8001/sales/ws/TeamDtoService"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">jaxws:client</span> <span class="attr">id</span>=<span class="string">"agreementDetailService"</span> <span class="attr">serviceClass</span>=<span class="string">"webservice.wsdl.sales.AgreementDetailService"</span> </span></span><br><span class="line"><span class="tag">		<span class="attr">address</span>=<span class="string">"http://10.100.137.185:8001/sales/ws/AgreementDetailService"</span> /&gt;</span></span><br><span class="line">    </span><br><span class="line">	<span class="tag">&lt;<span class="name">jaxws:client</span> <span class="attr">id</span>=<span class="string">"agreementDtoService"</span> <span class="attr">serviceClass</span>=<span class="string">"webservice.wsdl.sales.AgreementDtoService"</span> </span></span><br><span class="line"><span class="tag">		<span class="attr">address</span>=<span class="string">"http://10.100.137.185:8001/sales/ws/AgreementDtoService"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">jaxws:client</span> <span class="attr">id</span>=<span class="string">"userDetailService"</span> <span class="attr">serviceClass</span>=<span class="string">"webservice.wsdl.sales.UserDetailService"</span></span></span><br><span class="line"><span class="tag">		<span class="attr">address</span>=<span class="string">"http://10.100.137.185:8001/sales/ws/UserDetailService"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">jaxws:client</span> <span class="attr">id</span>=<span class="string">"userDtoService"</span> <span class="attr">serviceClass</span>=<span class="string">"webservice.wsdl.sales.UserDtoService"</span></span></span><br><span class="line"><span class="tag">		<span class="attr">address</span>=<span class="string">"http://10.100.137.185:8001/sales/ws/UserDtoService"</span> /&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="tag">&lt;<span class="name">jaxws:client</span> <span class="attr">id</span>=<span class="string">"prpdNetService"</span> <span class="attr">serviceClass</span>=<span class="string">"webservice.wsdl.sales.netService.PrpdNetService"</span></span></span><br><span class="line"><span class="tag">		<span class="attr">address</span>=<span class="string">"http://10.100.137.185:8001/sales/ws/PrpdNetService"</span>&gt;</span><span class="tag">&lt;/<span class="name">jaxws:client</span>&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="tag">&lt;<span class="name">jaxws:client</span> <span class="attr">id</span>=<span class="string">"queryPrpdNetService"</span> <span class="attr">serviceClass</span>=<span class="string">"webservice.wsdl.sales.netWork.QueryPrpdNetService"</span> </span></span><br><span class="line"><span class="tag">		<span class="attr">address</span>=<span class="string">"http://10.100.137.185:8001/sales/ws/QueryPrpdNetService"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">jaxws:client</span> <span class="attr">id</span>=<span class="string">"queryPrpdNetServiceWithSaleUser"</span> <span class="attr">serviceClass</span>=<span class="string">"webservice.wsdl.sales.netWork.QueryPrpdNetServiceWithSaleUser"</span> </span></span><br><span class="line"><span class="tag">		<span class="attr">address</span>=<span class="string">"http://10.100.137.185:8001/sales/ws/QueryPrpdNetServiceWithSaleUser"</span>/&gt;</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment">&lt;!--</span></span><br><span class="line"><span class="comment">	&lt;bean id="propertyConfigurer"</span></span><br><span class="line"><span class="comment">		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"&gt;</span></span><br><span class="line"><span class="comment">		&lt;property name="locations"&gt;</span></span><br><span class="line"><span class="comment">			&lt;list&gt;</span></span><br><span class="line"><span class="comment">				&lt;value&gt;classpath:/webservice.properties&lt;/value&gt;</span></span><br><span class="line"><span class="comment">			&lt;/list&gt;</span></span><br><span class="line"><span class="comment">		&lt;/property&gt;</span></span><br><span class="line"><span class="comment">	&lt;/bean&gt;</span></span><br><span class="line"><span class="comment">	--&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>以上2、3两种方式均要导入相应cxf的jar包</p>
-
+            <p>
+              webservice接口问题，我们这边是服务端，第三方调用我们服务，一共9个接口。
+我们这对应3个环境133、135、137，在3个环境上的代码的代码都是一样的，但是生成的ws客户端却不一样，133和135是一样，137和这两个环境不一样。并且两套客户端都不能在三个环境都行得通。
+一直找不出原因，动
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/工作/记开发以来的一个大问题/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1268,22 +1164,6 @@
             
 
             
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-24 14:13:14" itemprop="dateModified" datetime="2019-05-24T14:13:14+08:00">2019-05-24</time>
-              
-            
           </span>
 
           
@@ -1348,19 +1228,20 @@
       
         
           
-            <h1 id="Collection"><a href="#Collection" class="headerlink" title="Collection:"></a><strong>Collection:</strong></h1><p><strong>ArrayList</strong><br>1:底层实现是数组，默认长度是10.<br>2:add(),判断是否数组越界，是数组扩容为原来的两倍。<br>3:remove(),copy数组，size-1,释放空虚的空间。</p>
-<p><strong>LinkedList</strong><br>1.LinkedList基于链表实现<br>2.对于随机访问get和set，ArrayList觉得优于LinkedList，因为LinkedList要移动指针。<br>3.对于新增和删除操作add和remove，LinedList比较占优势，因为ArrayList要移动数据。<br>4.查找操作indexOf,lastIndexOf,contains等，两者差不多。</p>
-<p><strong>HashSet</strong><br>底层实现是一个HashMap,把值存在map的key上，value存的是一个object对象，就是说底层的HashMap中value都是一样的。<br>HashSet是无序的，不允许重复。</p>
-<p><strong>LinkedHashSet</strong><br>基础自HashSet,底层实现是一个LinkedHashMap,通过equals()方法比较两个对象是否相等,初始容量16，加载因子0.75f.<br>使用链表维护数据的顺序，所有说是有序，不重复的,对象都是存在底层map的key上，所有允许有且只有一个对象为null。</p>
-<h1 id="Map"><a href="#Map" class="headerlink" title="Map:"></a><strong>Map:</strong></h1><p><strong>HashMap</strong><br>初始容量值：16，加载因子0.75f.<br>put()第一个对象的时候，进行初始化，容量16，极限值12，大于极限就要进行扩容。<br>其底层是一个Entry数组，根据hash值，算法决定object val 对象存在Entry数组的位置。<br>注意点在用Iterator进行遍历map的时候，在遍历过程中不能调用remove()方法，否则会报错。<br>java.util.ConcurrentModificationException<br>at java.util.HashMap$HashIterator.nextEntry(HashMap.java:922)<br>at java.util.HashMap$EntryIterator.next(HashMap.java:962)<br>at java.util.HashMap$EntryIterator.next(HashMap.java:960)</p>
-<p>原因：<br>在获得hashmap的迭代器的时候，构造器中会把expectedModCount = modCount;modCount:(记录map增加，删除，modCount+1)<br>在迭代过程中如何调用remove() or add()方法，modCont+1,在iterator.next()的时候会去比较expectedModCount与modCont是否相等，不等，报错。</p>
-<p>源码：</p>
-<p><img src="https://oscimg.oschina.net/oscnet/900425-20161101222716674-1900843764.png" alt></p>
-<p><img src="https://oscimg.oschina.net/oscnet/900425-20161101222805783-536211107.png" alt></p>
-<p><img src="https://oscimg.oschina.net/oscnet/900425-20161101222855377-449455763.png" alt></p>
-<p><strong>LinkedHashMap</strong><br>初始容量16，加载因子0.75f.<br>一个有序的map。继承HashMap,LinkedHashMap并未重写父类HashMap的put方法，而是重写了父类HashMap的put方法调用的子方法void addEntry(int hash, K key, V value, int bucketIndex) 和void createEntry(int hash, K key, V value, int bucketIndex)，提供了自己特有的双向链接列表的实现。</p>
-
+            <p>
+              Collection:ArrayList1:底层实现是数组，默认长度是10.2:add(),判断是否数组越界，是数组扩容为原来的两倍。3:remove(),copy数组，size-1,释放空虚的空间。
+LinkedList1.LinkedList基于链表实现2.对于随机访问get和set，Array
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/学无止境/java常用集合框架/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1464,22 +1345,6 @@
             
 
             
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-05-24 14:15:24" itemprop="dateModified" datetime="2019-05-24T14:15:24+08:00">2019-05-24</time>
-              
-            
           </span>
 
           
@@ -1544,20 +1409,26 @@
       
         
           
-            <p>无继承的的初始化顺序：</p>
-<p><img src="https://oscimg.oschina.net/oscnet/be155b16472661a540bdd2971199fb43d50.jpg" alt><br><img src="https://oscimg.oschina.net/oscnet/a1233f6bfdcc98d36303e9e6d8ec3684c5c.jpg" alt></p>
-<p>有继承的初始化顺序：</p>
-<p><img src="https://oscimg.oschina.net/oscnet/68753e7d7793b35e600970ffec8e9a3d72d.jpg" alt><br><img src="https://oscimg.oschina.net/oscnet/ffa92582706f465a7bbae6c80064aedac3c.jpg" alt></p>
-<p>注意：（静态）变量和（静态）代码块的也是有执行顺序的，与代码书写的顺序一致。在（静态）代码块中可以使用（静态）变量，但是被使用的（静态）变量必须在（静态）代码块前面声明。</p>
-<p> 最后给出执行步骤：</p>
-<p>1、父类静态变量和静态代码块（先声明的先执行）；</p>
-<p>2、子类静态变量和静态代码块（先声明的先执行）；</p>
-<p>3、父类的变量和代码块（先声明的先执行）；</p>
-<p>4、父类的构造函数；</p>
-<p>5、子类的变量和代码块（先声明的先执行）；</p>
-<p>6、子类的构造函数。</p>
+            <p>
+              无继承的的初始化顺序：
 
+有继承的初始化顺序：
+
+注意：（静态）变量和（静态）代码块的也是有执行顺序的，与代码书写的顺序一致。在（静态）代码块中可以使用（静态）变量，但是被使用的（静态）变量必须在（静态）代码块前面声明。
+ 最后给出执行步骤：
+1、父类静态变量和静态代码块（先声明的先执行）；
+2、子
+              ...
+            </p>
+          <!--noindex-->
           
+            <div class="post-button text-center">
+              <a class="btn" href="/学无止境/代码块执行顺序/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
@@ -1751,7 +1622,7 @@
       <div class="footer-inner">
         <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love" id="animate">
-    <i class="fa fa-user"></i>
+    <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">揖风</span>
 
@@ -1761,20 +1632,40 @@
 </div>
 
 
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
 
 
 
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.1.1</div>
 
 
 
 
         
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-user"></i>
+    </span>
+    <span class="site-uv" title="总访客量">
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+    </span>
+  
+
+  
+    <span class="post-meta-divider">|</span>
+  
+
+  
+    <span class="post-meta-item-icon">
+      <i class="fa fa-eye"></i>
+    </span>
+    <span class="site-pv" title="总访问量">
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+    </span>
+  
+</div>
+
 
 
 
@@ -1857,7 +1748,9 @@
   
 
 
-  <script src="/js/schemes/muse.js?v=7.1.1"></script>
+  <script src="/js/affix.js?v=7.1.1"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.1.1"></script>
 
 
 
@@ -1892,12 +1785,12 @@
   });
   new Valine({
     el: '#comments',
-    verify: false,
+    verify: true,
     notify: false,
     appId: '8TVzitTmWR6Jl1STvnVH49g7-gzGzoHsz',
     appKey: 'BdGqc0aS6kR7UXr8Iq0Sb4Yn',
     placeholder: '各位道友，请举手发言',
-    avatar: 'mm',
+    avatar: 'wavatar',
     meta: guest,
     pageSize: '10' || 10,
     visitor: false,
@@ -1910,6 +1803,326 @@
 
 
   
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
 
 
 

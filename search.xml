@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title><![CDATA[HashMap解析]]></title>
+    <url>%2F%E5%AD%A6%E6%97%A0%E6%AD%A2%E5%A2%83%2Fhashmap%2F</url>
+    <content type="text"><![CDATA[这里说的贼好 HashMap数据结构是数组+链表（jdk1.7）jdk1.8还加入了红黑树存值是怎么存的呢？ 这些元素是按照什么样的规则存储到数组中呢。一般情况是通过hash(key)%(len-1)获得，也就是元素的key的哈希值对数组长度取模得到。 比如，12%16=12, 28%16=12, 108%16=12, 140%16=12。所以12、28、108以及140都存储在数组下标为12的位置。 123int hash = key.hashCode(); // 这个hashCode方法这里不详述,只要理解每个key的hash是一个固定的int值int index = hash % (Entry[].length-1);table[index] = value;//假定存储链表头结点的数组名为table ​ 用table[index]表示通过hash值计算出来的、元素需要存储在数组中的位置。​ 先判断该位置上有没有存有Entity,没有的话就创建一个Entity&lt;k,v&gt;对象，在该位置上插入，插入结束；​ 如果有的话，通过链表的遍历方式去逐个遍历，通过equals方法将key和已有的key进行比较，看看有没有已经存在的key，有的话用新的value替换老的value；​ 如果没有，则在table[index]插入该Entity，把原来在table[index]位置上的Entity赋值给新的 Entity的next，也即，新的Entity插入（put）的位置永远是在链表的最前面，这样插入结束。 ​ 打个比方， 第一个键值对A进来，通过计算其key的hash得到的index=0，记做:table[0] = A。​ 一会后又进来一个键值对B，通过计算其index也等于0，现在怎么办？​ HashMap会这样做:B.next = A,table[0] = B;​ 如果又进来C,index也等于0,那么C.next = B,table[0] = C;​ 这样我们发现index=0的地方其实存取了A,B,C三个键值对,他们通过next这个属性链接在一起。 ​ 注：null key总是存放在Entry[]数组的第一个元素。 加载因子说明 数据结构之间的差别 向HashMap添加数据（成对 放入 键 - 值对） jdk1.8 计算哈希码值：]]></content>
+      <categories>
+        <category>学无止境</category>
+      </categories>
+      <tags>
+        <tag>HashMap</tag>
+        <tag>红黑树</tag>
+        <tag>加载因子</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Spring Cloud探索]]></title>
+    <url>%2F%E5%AD%A6%E6%97%A0%E6%AD%A2%E5%A2%83%2Fspringcloud%2F</url>
+    <content type="text"><![CDATA[什么是Spring CloudSpring Cloud是微服务架构思想的一个具体实现，它为开发人员提供了快速构建分布式系统中一些常见模式的工具（例如配置管理、服务发、断路器，智能路由、微代理、控制总线等）。 Spring Cloud 基于Spring Boot 框架，它不重复造轮子，而是将第三方实现的微服务应用的一些模块集成进去。准确的说，Spring Cloud 是一个容器。 一些组件EurekaSpring Cloud Nelix 的 Eureka 组件是服务于发现模块。（注册中心和客户端） Zuul它提供微服务的网关功能，即中转站，通过它提供的接口，可以转发不同的服务。它的作用就是进行路由转发、异常处理和过滤拦截。 在实际的项目中，一个项目可能会包含很多个服务，每个服务的端口和IP 都可能不一样。那么，如果我们以这种形式提供接口给外部调用，代价是非常大的。从安全性上考虑，系统对外提供的接口应该进行合法性校验，防止非法请求，如果按照这种形式，那每个服务都要写一遍校验规则，维护起来也很麻烦。这个时候，我们需要统一的入口，接口地址全部由该入口进入，而服务只部署在局域网内供这个统一的入口调用，这个入口就是我们通常说的服务网关。 Feign一个大型的系统由多个微服务模块组成，各模块之间不可避免需要进行通信，一般我们可以通过内部接口调用的形式，服务A 提供一个接口，服务B 通过HTTP 请求调用服务A 的接口，为了简化开发，Spring Cloud 提供了一个基础组件方便不同服务之间的HTTP 调用，那就是Feign。 Feign 是一个声明式的HTTP 客户端，它简化了HTTP 客户端的开发。使用Feign，只需要创建一个接口并注解，就能很轻松的调用各服务提供的HTTP 接口。Feign 默认集成了Ribbon，默认实现了负载均衡。 HystrixSpringCloud 集成了Nelix 开源的Hystrix 组件，该组件实现了熔断器模型，它使得我们很方便地实现熔断器。 在实际项目中，一个请求调用多个服务是比较常见的，如果较底层的服务发生故障将会发生连锁反应。这对于一个大型项目是灾难性的。因此，我们需要利用Hystrix 组件，当特定的服务不可用达到一个阈值（Hystrix 默认5秒20次），将打开熔断器，即可避免发生连锁反应。 前面的注册中心、服务提供者、服务消费者、服务网关和熔断器，每个工程都有配置文件，而且有些配置是想通的，按照这个方式进行应用程序的配置，维护性较差，扩展性也较差，比如很多个服务都会配置数据源，而数据源只有一个，那么如果我们的数据源地址发生变化，所有地方都需要改，如何改进这个问题呢？接下来的配置中心就是为解决这个问题而生的。 学习了SpringCloud 的很多组件，每个组件都创建了一个工程，而每个工程都会有一个配置文件，并且有些配置是一样的。例如：在实际项目中，我们创建了用户和订单两个服务，这两个服务是同一个数据库，那么我们在这两个服务的配置文件都会配置相同的数据源，一旦我们的数据库地址发生改变（只是一种情况），用户和订单两个服务的配置文件都需要改，这还是只是两个服务，在一个大型系统（比如淘宝），将会有成千上万个服务，按照这种方式代价无疑是巨大的。 不过无需担心，正所谓上有政策，下有对策，既然有这个问题，就一定会有解决方案，那就是创建一个配置中心，专门用于管理系统的所有配置，也就是我们将所有配置文件放到统一的地方进行管理。我们知道，SpringCloud 就是为了简化开发而生的，因此SpringCloud 为我们集成了配置中心——Spring Cloud Conﬁg 组件。 Spring Cloud ConfigSpring Cloud Conﬁg 是一个高可用的分布式配置中心，它支持将配置存放到内存（本地），也支持将其放到Git 仓库进行统一管理（本文主要探讨和Git 的融合）。]]></content>
+      <categories>
+        <category>学无止境</category>
+      </categories>
+      <tags>
+        <tag>Spring Cloud</tag>
+        <tag>Eureka</tag>
+        <tag>Zuul</tag>
+        <tag>Feign</tag>
+        <tag>Hystrix</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[导入导出Excel]]></title>
+    <url>%2F%E5%AD%A6%E6%97%A0%E6%AD%A2%E5%A2%83%2Fexcel%E5%AF%BC%E5%87%BA%2F</url>
+    <content type="text"><![CDATA[项目中Excel导入，导出用什么技术实现呢？ Apache POIApache POI是Apache软件基金会的开源项目，POI提供API给Java程序对Microsoft Office格式档案读和写的功能。 .NET的开发人员则可以利用NPOI (POI for .NET) 来存取 Microsoft Office文档的功能。 包名称说明 HSSF提供读写Microsoft Excel XLS格式档案的功能。 XSSF提供读写Microsoft Excel OOXML XLSX格式档案的功能。 HWPF提供读写Microsoft Word DOC格式档案的功能。 HSLF提供读写Microsoft PowerPoint格式档案的功能。 HDGF提供读Microsoft Visio格式档案的功能。 HPBF提供读Microsoft Publisher格式档案的功能。 HSMF提供读Microsoft Outlook格式档案的功能。 POI常用类说明 类名 说明 HSSFWorkbook Excel的文档对象 HSSFSheet Excel的表单 HSSFRow Excel的行 HSSFCell Excel的格子单元 HSSFFont Excel字体 HSSFDataFormat 格子单元的日期格式 HSSFHeader Excel文档Sheet的页眉 HSSFFooter Excel文档Sheet的页脚 HSSFCellStyle 格子单元样式 HSSFDateUtil 日期 HSSFPrintSetup 打印 HSSFErrorConstants 错误信息表]]></content>
+      <categories>
+        <category>学无止境</category>
+      </categories>
+      <tags>
+        <tag>Apache POI</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[记开发以来的一个大问题]]></title>
+    <url>%2F%E5%B7%A5%E4%BD%9C%2F%E8%AE%B0%E5%BC%80%E5%8F%91%E4%BB%A5%E6%9D%A5%E7%9A%84%E4%B8%80%E4%B8%AA%E5%A4%A7%E9%97%AE%E9%A2%98%2F</url>
+    <content type="text"><![CDATA[webservice接口问题，我们这边是服务端，第三方调用我们服务，一共9个接口。 我们这对应3个环境133、135、137，在3个环境上的代码的代码都是一样的，但是生成的ws客户端却不一样，133和135是一样，137和这两个环境不一样。并且两套客户端都不能在三个环境都行得通。 一直找不出原因，动态代理问题？路径问题？配置问题？环境问题？一切都不清楚。 最后想出的解决方案有3种： 接口中的namespace写死或者配置文件中用 jaxws:server 配置（之前是用 jaxws:endpoint 配置的可能有问题），生成的客户端就不会变。但这个我们服务端风险大，因为这9个接口对接的不止他们一个系统，改了之后不能保证其他系统依然能调通。 像做测试一样用最简单的 JaxWsProxyFactoryBean 代理工厂类直接调用接口，这个只需要客户端改些方法即可。 1234567891011121314151617181920212223242526272829 public static TeamDetailService getTeamDetail() throws Exception&#123; JaxWsProxyFactoryBean jfb = new JaxWsProxyFactoryBean(); jfb.setAddress("http://127.0.0.1:7001/sales/ws/TeamDetailService?wsdl"); jfb.setServiceClass(TeamDetailService.class); TeamDetailService service = (TeamDetailService) jfb.create(); TeamDetailRequest request = new TeamDetailRequest(); //机构集合 List&lt;String&gt; comCodes = new ArrayList&lt;String&gt;(); comCodes.add("0164363001"); //渠道类型 String teamType=""; request.setComCodes(comCodes); //request.setTeamType("01"); try &#123; TeamDetailResponse response=service.queryTeamDetail(request); List&lt;SaTeamNewDto&gt; saTeamNewList = response.getTeamNewDetails(); int i=1; for (SaTeamNewDto saTeamNewDto: saTeamNewList) &#123; System.out.println("第"+i+"个团队代码为:"+saTeamNewDto.getTeamCode()+" 团队名称为："+saTeamNewDto.getTeamName()); System.out.println("第"+i+"个机构代码为:"+saTeamNewDto.getComCode()+" 机构名称为："+saTeamNewDto.getDeptCode()); System.out.println("第"+i+"个渠道类型为:"+saTeamNewDto.getTeamTypeID()); i++; &#125; return service; &#125; catch (Exception e) &#123; // logger.error("Error:", e.toString());//e.printStackTrace(); throw e; &#125;&#125; 用 spring+cxf 配置文件来解决，无需考虑客户端生成的接口名称，无需关心是否有代理，也是一种不错的方法 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384&lt;?xml version="1.0" encoding="UTF-8"?&gt;&lt;beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxws="http://cxf.apache.org/jaxws" xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd"&gt; &lt;bean id="gsTeamService" class="webservice.client.sales.service.impl.GsTeamServiceImpl"&gt; &lt;property name="teamDetailNXService" ref="teamDetailNXService"&gt;&lt;/property&gt; &lt;/bean&gt; &lt;bean id="gsTeamDetailService" class="webservice.client.sales.service.impl.GsTeamDetailServiceImpl"&gt; &lt;property name="teamDtoService" ref="teamDtoService"&gt;&lt;/property&gt; &lt;/bean&gt; &lt;bean id="gsAgrtService" class="webservice.client.sales.service.impl.GsAgrtServiceImpl"&gt; &lt;property name="agreementDetailService" ref="agreementDetailService" /&gt; &lt;/bean&gt; &lt;bean id="gsAgrtDetailService" class="webservice.client.sales.service.impl.GsAgrtDetailServiceImpl"&gt; &lt;property name="agreementDtoService" ref="agreementDtoService"&gt;&lt;/property&gt; &lt;/bean&gt; &lt;bean id="gsSalesManService" class="webservice.client.sales.service.impl.GsSalesManServiceImpl"&gt; &lt;property name="userDetailService" ref="userDetailService"&gt;&lt;/property&gt; &lt;/bean&gt; &lt;bean id="gsSalesManDtoService" class="webservice.client.sales.service.impl.GsSalesManDtoServiceImpl"&gt; &lt;property name="userDtoService" ref="userDtoService"&gt;&lt;/property&gt; &lt;/bean&gt; &lt;bean id="gsPrpdNetService" class="webservice.client.sales.service.impl.GsPrpdNetServiceImpl"&gt; &lt;property name="prpdNetService" ref="prpdNetService"&gt;&lt;/property&gt; &lt;/bean&gt; &lt;bean id="gsQueryPrpdNetService" class="webservice.client.sales.service.impl.GsQueryNetWorkServiceImpl"&gt; &lt;property name="queryPrpdNetService" ref="queryPrpdNetService"&gt;&lt;/property&gt; &lt;/bean&gt; &lt;bean id="gsQueryPrpdNetServiceWithSaleUser" class="webservice.client.sales.service.impl.GsQueryPrpdNetServiceWithSaleUserImpl"&gt; &lt;property name="queryPrpdNetServiceWithSaleUser" ref="queryPrpdNetServiceWithSaleUser"&gt;&lt;/property&gt; &lt;/bean&gt; &lt;jaxws:client id="teamDetailNXService" serviceClass="webservice.wsdl.sales.TeamDetailNXService" address="http://10.100.137.185:8001/sales/ws/TeamDetailNXService" /&gt; &lt;jaxws:client id="teamDtoService" serviceClass="webservice.wsdl.sales.TeamDtoService" address="http://10.100.137.185:8001/sales/ws/TeamDtoService" /&gt; &lt;jaxws:client id="agreementDetailService" serviceClass="webservice.wsdl.sales.AgreementDetailService" address="http://10.100.137.185:8001/sales/ws/AgreementDetailService" /&gt; &lt;jaxws:client id="agreementDtoService" serviceClass="webservice.wsdl.sales.AgreementDtoService" address="http://10.100.137.185:8001/sales/ws/AgreementDtoService" /&gt; &lt;jaxws:client id="userDetailService" serviceClass="webservice.wsdl.sales.UserDetailService" address="http://10.100.137.185:8001/sales/ws/UserDetailService" /&gt; &lt;jaxws:client id="userDtoService" serviceClass="webservice.wsdl.sales.UserDtoService" address="http://10.100.137.185:8001/sales/ws/UserDtoService" /&gt; &lt;jaxws:client id="prpdNetService" serviceClass="webservice.wsdl.sales.netService.PrpdNetService" address="http://10.100.137.185:8001/sales/ws/PrpdNetService"&gt;&lt;/jaxws:client&gt; &lt;jaxws:client id="queryPrpdNetService" serviceClass="webservice.wsdl.sales.netWork.QueryPrpdNetService" address="http://10.100.137.185:8001/sales/ws/QueryPrpdNetService"/&gt; &lt;jaxws:client id="queryPrpdNetServiceWithSaleUser" serviceClass="webservice.wsdl.sales.netWork.QueryPrpdNetServiceWithSaleUser" address="http://10.100.137.185:8001/sales/ws/QueryPrpdNetServiceWithSaleUser"/&gt; &lt;!-- &lt;bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"&gt; &lt;property name="locations"&gt; &lt;list&gt; &lt;value&gt;classpath:/webservice.properties&lt;/value&gt; &lt;/list&gt; &lt;/property&gt; &lt;/bean&gt; --&gt;&lt;/beans&gt; 以上2、3两种方式均要导入相应cxf的jar包]]></content>
+      <categories>
+        <category>工作</category>
+      </categories>
+      <tags>
+        <tag>WebService</tag>
+        <tag>CXF</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[java常用集合框架底层实现]]></title>
+    <url>%2F%E5%AD%A6%E6%97%A0%E6%AD%A2%E5%A2%83%2Fjava%E5%B8%B8%E7%94%A8%E9%9B%86%E5%90%88%E6%A1%86%E6%9E%B6%2F</url>
+    <content type="text"><![CDATA[Collection:ArrayList1:底层实现是数组，默认长度是10.2:add(),判断是否数组越界，是数组扩容为原来的两倍。3:remove(),copy数组，size-1,释放空虚的空间。 LinkedList1.LinkedList基于链表实现2.对于随机访问get和set，ArrayList觉得优于LinkedList，因为LinkedList要移动指针。3.对于新增和删除操作add和remove，LinedList比较占优势，因为ArrayList要移动数据。4.查找操作indexOf,lastIndexOf,contains等，两者差不多。 HashSet底层实现是一个HashMap,把值存在map的key上，value存的是一个object对象，就是说底层的HashMap中value都是一样的。HashSet是无序的，不允许重复。 LinkedHashSet基础自HashSet,底层实现是一个LinkedHashMap,通过equals()方法比较两个对象是否相等,初始容量16，加载因子0.75f.使用链表维护数据的顺序，所有说是有序，不重复的,对象都是存在底层map的key上，所有允许有且只有一个对象为null。 Map:HashMap初始容量值：16，加载因子0.75f.put()第一个对象的时候，进行初始化，容量16，极限值12，大于极限就要进行扩容。其底层是一个Entry数组，根据hash值，算法决定object val 对象存在Entry数组的位置。注意点在用Iterator进行遍历map的时候，在遍历过程中不能调用remove()方法，否则会报错。java.util.ConcurrentModificationExceptionat java.util.HashMap$HashIterator.nextEntry(HashMap.java:922)at java.util.HashMap$EntryIterator.next(HashMap.java:962)at java.util.HashMap$EntryIterator.next(HashMap.java:960) 原因：在获得hashmap的迭代器的时候，构造器中会把expectedModCount = modCount;modCount:(记录map增加，删除，modCount+1)在迭代过程中如何调用remove() or add()方法，modCont+1,在iterator.next()的时候会去比较expectedModCount与modCont是否相等，不等，报错。 源码： LinkedHashMap初始容量16，加载因子0.75f.一个有序的map。继承HashMap,LinkedHashMap并未重写父类HashMap的put方法，而是重写了父类HashMap的put方法调用的子方法void addEntry(int hash, K key, V value, int bucketIndex) 和void createEntry(int hash, K key, V value, int bucketIndex)，提供了自己特有的双向链接列表的实现。]]></content>
+      <categories>
+        <category>学无止境</category>
+      </categories>
+      <tags>
+        <tag>HashMap</tag>
+        <tag>集合框架</tag>
+        <tag>Collection</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[构造器，代码块，静态代码块的执行顺序]]></title>
+    <url>%2F%E5%AD%A6%E6%97%A0%E6%AD%A2%E5%A2%83%2F%E4%BB%A3%E7%A0%81%E5%9D%97%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F%2F</url>
+    <content type="text"><![CDATA[无继承的的初始化顺序： 有继承的初始化顺序： 注意：（静态）变量和（静态）代码块的也是有执行顺序的，与代码书写的顺序一致。在（静态）代码块中可以使用（静态）变量，但是被使用的（静态）变量必须在（静态）代码块前面声明。 最后给出执行步骤： 1、父类静态变量和静态代码块（先声明的先执行）； 2、子类静态变量和静态代码块（先声明的先执行）； 3、父类的变量和代码块（先声明的先执行）； 4、父类的构造函数； 5、子类的变量和代码块（先声明的先执行）； 6、子类的构造函数。]]></content>
+      <categories>
+        <category>学无止境</category>
+      </categories>
+      <tags>
+        <tag>静态代码块</tag>
+      </tags>
+  </entry>
+</search>
